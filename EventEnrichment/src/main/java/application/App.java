@@ -11,7 +11,6 @@
 
 package application;
 
-import adapters.KafkaProcessor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.lettuce.core.RedisClient;
@@ -22,17 +21,13 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import params.*;
+import params.KafkaEvent;
 import utils.ConsumerCreator;
 import utils.ProducerCreator;
 import utils.RedisConnector;
-import utils.VariablesUtil;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class App {
 
