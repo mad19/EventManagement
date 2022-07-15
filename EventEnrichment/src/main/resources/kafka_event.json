@@ -1,0 +1,9 @@
+{
+  "unique_metric_id": 250006,
+  "threshold_id": "ECM_250019",
+  "alert_id:": 1500001,
+  "severity": 20,
+  "tm": "2020-08-17 12:02:02.000Z",
+  "metric_value": "2.0",
+  "source": "SiteScope"
+}
