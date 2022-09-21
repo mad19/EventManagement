@@ -35,115 +35,19 @@ public class App {
 
     public static void main(String[] args) throws Exception {
 
-        // Запускаем приемщик в тестовом режиме на получение сырого события
         log.info("Starting application");
-
-        //Тестовый запуск с чтением событие из json файла вместо Kafka
-        //runConsumerTest();
 
         //Запуск с чтением событий из Kafka
         runConsumer();
 
-
     }
-
-    // Вычитывание файла
-    public static String readFileAsString(String file) throws Exception{
-        return new String(Files.readAllBytes(Paths.get(file)));
-    }
-
-    // Тестовый вариант запуска, если Kafka не работает
-    /*
-    static void runConsumerTest() throws Exception {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        String file = "src/test/java/application/kafka_event.json";
-        String json = readFileAsString(file);
-        KafkaEvent kafkaEvent = gson.fromJson(json, KafkaEvent.class);
-        log.info("KafkaEvent: " + kafkaEvent.toString());
-
-        try {
-            RedisClient client = RedisConnector.getClient();
-            StatefulRedisConnection<String, String> connection = client.connect();
-            RedisCommands<String, String> commands = connection.sync();
-
-            switch (kafkaEvent.getAlert_type()) {
-                case "Событие":
-
-                    String alert_info = commands.get("ALERT:" + kafkaEvent.getAlert_id());
-
-                    Template template = gson.fromJson(alert_info, Template.class);
-                    log.info("Template: " + template.toString());
-
-                    ArrayList variables = template.parseTemplate();
-
-                    if (!variables.isEmpty()) {
-                        Props props = template.getVariables(variables, kafkaEvent, connection);
-                        Event event = new Event(template, props, kafkaEvent);
-                        //log.info("EVENT: " + event.toString());
-                        log.info("EVENT: " + event.toJson());
-
-                    } else {
-                        Event event = new Event(template);
-                    }
-                    break;
-
-                case "Email":
-
-                    //String email_alert_info = commands.get("ALERT:" + kafkaEvent.getAlert_id());
-                    String email_alert_info = null;
-                    GsonBuilder builderTest = new GsonBuilder();
-                    Gson gsonTest = builder.create();
-                    String fileTest = "src/test/java/application/email.json";
-                    String jsonTest = readFileAsString(file);
-
-
-                    //TemplateEmail templateEmail = gson.fromJson(email_alert_info, TemplateEmail.class);
-                    TemplateEmail templateEmail = gson.fromJson(jsonTest, TemplateEmail.class);
-                    //templateEmail.getProps().put("theme", "Тестовая тема 2. Метрика <metric>");
-                    log.info("Template email: " + templateEmail);
-
-                    ArrayList email_variables = templateEmail.parseTemplate();
-
-                    if (!email_variables.isEmpty()) {
-                        Props props = templateEmail.getVariables(email_variables, kafkaEvent, connection);
-                        log.info(props.getProps_list());
-                        EmailEvent emailEvent = new EmailEvent(templateEmail, props, kafkaEvent);
-                        //log.info(emailEvent);
-                        log.info(emailEvent.toJson());
-                        break;
-
-                    } else {
-                        log.error("Error. No variables");
-                    }
-
-                case "SMS":
-                    break;
-                default:
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-     */
-
 
 
     // Запуск обработки поступающих из Kafka событий
     static void runConsumer() {
 
         log.info("Creating kafka consumer...");
-        Consumer<Long, String> consumer = null;
+        Consumer<Long, String> consumer;
         try {
             consumer = ConsumerCreator.createConsumer();
             log.info("Consumer created.");
@@ -153,7 +57,7 @@ public class App {
         }
 
         log.info("Creating kafka producer...");
-        Producer producer = null;
+        Producer producer;
         try {
             producer = ProducerCreator.createProducer();
             log.info("Producer created");
@@ -187,6 +91,7 @@ public class App {
                 // Обрабатываем Json как экземпляр класса KafkaEvent
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
+
                 KafkaEvent kafkaEvent;
                 log.info("Receiving event from Kafka...");
                 try {
@@ -211,10 +116,6 @@ public class App {
             consumer.commitAsync();
 
         }
-
-        //consumer.close();
-        //producer.close();
-        //client.shutdown();
 
     }
 

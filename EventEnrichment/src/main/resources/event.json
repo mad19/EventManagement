@@ -1,0 +1,12 @@
+{
+  "tm": "2020-08-17 12:02:02.000Z",
+  "severity": "0",
+  "title": "Метрика Метрика №3 превысила порог",
+  "description": "Описание описание описание",
+  "solution": "Инструкция по решению проблемы",
+  "application": "SiteScope",
+  "object": "ОБО (ДБО КИБ):Метрика №3",
+  "CiHint": "UCMDB:4a9cfef479e2a10f3a9c8df874567dc7",
+  "key": "SiteScope:ОБО (ДБО КИБ):Метрика №3:0",
+  "close_key_pattern": "SiteScope:ОБО (ДБО КИБ):Метрика №3:*"
+}

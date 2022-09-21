@@ -12,7 +12,7 @@ public class Props {
     private Map<String, String> props_list;
 
     public Props (KafkaEvent kafkaEvent) {
-        props_list = new HashMap<String, String>();
+        props_list = new HashMap<>();
         props_list.put("meas.value",kafkaEvent.getMetric_value());
 
         int severity_code = kafkaEvent.getSeverity();

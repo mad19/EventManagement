@@ -21,34 +21,7 @@ public class VariablesUtil {
 
     private static final Logger log = LogManager.getLogger(VariablesUtil.class.getName());
 
-    public static Props getVariablesOld(Set<String> vars, KafkaEvent kafkaEvent, RedisCommands<String, String> commands)
-            throws Exception {
-
-        String th_description = commands.get("TH:DESC:" + kafkaEvent.getThreshold_id());
-
-        JSONParser parser = new JSONParser();
-        JSONObject th_description_json = (JSONObject) parser.parse(th_description);
-
-        Props props = new Props(kafkaEvent);
-
-        // ["key":"value","key":"value"]
-        vars.forEach( var -> {
-            try {
-                if (!props.getProps_list().containsKey(var.toString())) {
-                    props.getProps_list().put(var.toString(), th_description_json.get(var.toString()).toString());
-                }
-            } catch (Exception e) {
-                log.warn("Переменная не найдена: " + var.toString());
-                props.getProps_list().put(var.toString(), String.format("<<%s>>", var.toString()));
-            }
-        });
-
-        return props;
-    }
-
-
-    public static Props getVariables(Set<String> vars, KafkaEvent kafkaEvent, RedisCommands<String, String> commands)
-            throws ParseException {
+    public static Props getVariables(Set<String> vars, KafkaEvent kafkaEvent, RedisCommands<String, String> commands) {
 
         JSONParser parser = new JSONParser();
 
@@ -96,7 +69,6 @@ public class VariablesUtil {
 
         Props props = new Props(kafkaEvent);
 
-        // ["key":"value","key":"value"]
         JSONObject finalDim_meas = dim_meas;
         JSONObject finalDim_th = dim_th;
         JSONObject finalDim_ci = dim_ci;
@@ -130,7 +102,7 @@ public class VariablesUtil {
     }
 
 
-    public static HashSet<String> parseTemplate(Template template) throws Exception {
+    public static HashSet<String> parseTemplate(Template template) {
 
         //Получение списка необходимых переменных
         HashSet<String> vars;
@@ -146,7 +118,7 @@ public class VariablesUtil {
     }
 
 
-    public static HashSet<String> parseTemplate(TemplateEmail template) throws Exception {
+    public static HashSet<String> parseTemplate(TemplateEmail template) {
 
         //Получение списка необходимых переменных
         HashSet<String> vars;

@@ -45,21 +45,13 @@ public class Event {
         this.eventInfo = alertInfo;
     }
 
-    public Event (Template template){
-
-    }
-
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         String newLine = System.getProperty("line.separator");
 
-        //result.append( this.getClass().getName() );
-
-        //determine fields declared in this class only (no fields of superclass)
         Field[] fields = this.getClass().getDeclaredFields();
 
-        //print field names paired with their values
         for ( Field field : fields  ) {
             try {
                 result.append( "\"" + field.getName() + "\"" );
@@ -82,7 +74,6 @@ public class Event {
     private String replaceVars(String line, Props props) {
         String rx = "<<(.+?)>+";
 
-        //StringBuilder sb = new StringBuilder();
         StringBuffer sb = new StringBuffer();
         Pattern pattern = Pattern.compile(rx);
         Matcher matcher = pattern.matcher(line);

@@ -9,7 +9,7 @@ public class RedisConnector {
 
     public static RedisClient getClient(){
         redisUri = RedisURI.Builder.redis("192.168.200.32")
-                .withPassword("P@ssw1rd")
+                .withPassword("pass")
                 .withDatabase(15)
                 .build();
         RedisClient client = RedisClient.create(redisUri);

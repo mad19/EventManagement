@@ -20,12 +20,10 @@ public class EventProcessor {
 
     private static final Logger log = LogManager.getLogger(EventProcessor.class.getName());
 
-    private static KafkaEvent kafkaEvent;
-    private static RedisCommands<String, String> commands;
-    private static Producer producer;
-
+    private KafkaEvent kafkaEvent;
+    private RedisCommands<String, String> commands;
+    private Producer producer;
     private static final String topicName = "processed_events";
-
     private static final GsonBuilder builder = new GsonBuilder();
     public static final Gson gson = builder.create();
 
@@ -70,7 +68,7 @@ public class EventProcessor {
         Props props = getProps(template);
 
         log.info("Creating event");
-        Event event = null;
+        Event event;
         try {
             event = new Event(template, props, kafkaEvent);
             log.info("Successful");
@@ -100,7 +98,7 @@ public class EventProcessor {
 
         Props props = getProps(templateEmail);
 
-        EmailEvent emailEvent = null;
+        EmailEvent emailEvent;
         log.info("Creating email event");
         try {
             emailEvent = new EmailEvent(templateEmail, props, kafkaEvent);
@@ -122,7 +120,7 @@ public class EventProcessor {
 
 
     private String getAlertInfo() {
-        String alert_info = "";
+        String alert_info;
 
         try {
             alert_info = commands.get("DIM:ALERT:" + kafkaEvent.getAlert_id());
@@ -150,9 +148,8 @@ public class EventProcessor {
         }
 
         log.info("Creating properties for Event...");
-        Props props = null;
+        Props props;
         try {
-            //props = VariablesUtil.getVariablesOld(variables, kafkaEvent, commands);
             props = VariablesUtil.getVariables(variables, kafkaEvent, commands);
             log.info("Properties successfully created");
         } catch (Exception e) {
@@ -177,9 +174,8 @@ public class EventProcessor {
         }
 
         log.info("Creating properties for Email event...");
-        Props props = null;
+        Props props;
         try {
-            //props = VariablesUtil.getVariablesOld(variables, kafkaEvent, commands);
             props = VariablesUtil.getVariables(variables, kafkaEvent, commands);
             log.info("Properties successfully created");
         } catch (Exception e) {

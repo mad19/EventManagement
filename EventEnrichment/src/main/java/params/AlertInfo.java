@@ -31,7 +31,6 @@ public class AlertInfo {
     public AlertInfo(JSONObject eventInfo, Props props, KafkaEvent kafkaEvent) throws ParseException {
         this.environment = "Sys";
 
-        //2020-08-17 12:02:02.000Z
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date tm = formatter.parse(kafkaEvent.getTm());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");

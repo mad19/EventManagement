@@ -24,7 +24,7 @@ public class EmailEvent {
     private String schedule;
 
 
-    public EmailEvent(TemplateEmail templateEmail, Props props, KafkaEvent kafkaEvent) throws ParseException {
+    public EmailEvent(TemplateEmail templateEmail, Props props, KafkaEvent kafkaEvent) {
         this.unique_metric_id = kafkaEvent.getUnique_metric_id();
         this.threshold_id = kafkaEvent.getThreshold_id();
         this.alert_type = kafkaEvent.getAlert_type();
@@ -45,7 +45,6 @@ public class EmailEvent {
     private String replaceVars(String line, Props props) {
         String rx = "<<(.+?)>+";
 
-        //StringBuilder sb = new StringBuilder();
         StringBuffer sb = new StringBuffer();
         Pattern pattern = Pattern.compile(rx);
         Matcher matcher = pattern.matcher(line);
